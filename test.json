@@ -1,0 +1,71 @@
+{
+    "questions": [
+        {
+            "index": 0,
+            "answers": [
+                "A type of train",
+                "A type of star",
+                "A type of game",
+                "A type of character"
+            ],
+            "question": "What is Honkai: Star Rail?",
+            "correct_answer": 2
+        },
+        {
+            "index": 1,
+            "answers": [
+                "miHoYo",
+                "Cognosphere",
+                "HoYoverse",
+                "All of the above"
+            ],
+            "question": "Who developed and published Honkai: Star Rail?",
+            "correct_answer": 3
+        },
+        {
+            "index": 2,
+            "answers": [
+                "First",
+                "Second",
+                "Third",
+                "Fourth"
+            ],
+            "question": "Which installment is Honkai: Star Rail in the Honkai series?",
+            "correct_answer": 3
+        },
+        {
+            "index": 3,
+            "answers": [
+                "Honkai Impact 2nd",
+                "Honkai Impact 3rd",
+                "Genshin Impact",
+                "Both B and C"
+            ],
+            "question": "Which game does Honkai: Star Rail utilize characters from?",
+            "correct_answer": 1
+        },
+        {
+            "index": 4,
+            "answers": [
+                "Astral Express",
+                "Stellar Express",
+                "Cosmic Train",
+                "Galaxy Express"
+            ],
+            "question": "What is the name of the train in the game?",
+            "correct_answer": 0
+        },
+        {
+            "index": 5,
+            "answers": [
+                "Traveling",
+                "Fighting",
+                "Building",
+                "Driving"
+            ],
+            "question": "What is the main character doing across the universe?",
+            "correct_answer": 0
+        }
+    ],
+    "transcript": "Honkai: Star Rail (HSR)[a] is a free-to-play role-playing gacha video game developed and published by miHoYo (with publishing outside mainland China under Cognosphere, d/b/a HoYoverse). It is the fourth installment in the Honkai series, utilizing some characters from Honkai Impact 3rd and some gameplay elements from Genshin Impact. The game features the main character, who is referred to as the Trailblazer, traveling across the universe through the Astral Express to help and connect the worlds while involved in resolving disasters caused by \"Stellarons\" and other third parties."
+}

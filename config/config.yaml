@@ -1,0 +1,27 @@
+postgre:
+  host: 10.0.7.49
+  port: 16000
+  username: neo4j
+  password: neo4j
+  db: neo4j
+
+rabbit:
+  scheme: ampq
+  host: 10.0.7.49
+  port: 5672
+  username: guest
+  password: guest
+
+minio:
+  endpoint: 10.0.7.49:16001
+  access_key: minio
+  secret_key: minio
+
+auth:
+  client_id: 982573539049-nf5ivbqg147d8m2s1sq3lc7g0anfeo63.apps.googleusercontent.com
+  client_secret: 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
+  redirect_uri: http://localhost:8501/oauth2callback
+
+gemini:
+  api_key: AIzaSyCR1WJGZ0zaFQUo1MkoGPG0FcXcmJkSAsc
+  model: gemini-2.0-flash

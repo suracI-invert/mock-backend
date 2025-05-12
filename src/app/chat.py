@@ -14,7 +14,7 @@ from domain.agents.speaking import speaking_p1, speaking_p2, speaking_p3
 from domain.assistants.agent import Assistant
 from domain.assistants.models import Context
 from domain.assistants.conversation_storage import ConversationStorage
-from domain.assistants.runners import bind_user_name
+from domain.assistants.runners import bind_context
 from .utils import convert_level
 
 
@@ -107,7 +107,7 @@ async def chat(
         storage=conversation_storage,
         context=context,
         model=model,
-        system_prompt_runners=(bind_user_name,),
+        system_prompt_runners=(bind_context,),
     )
     if stream:
         return assistant.chat_stream(message)

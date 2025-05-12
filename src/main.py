@@ -4,6 +4,7 @@ import logfire
 from fastapi import FastAPI
 from fastapi.responses import RedirectResponse
 from fastapi.middleware.cors import CORSMiddleware
+from pydantic_ai import Agent
 
 from api.routers import auth_router
 from api.routers import lesson_router
@@ -19,6 +20,8 @@ from api.middlewares.metric import ConnectionCounterMiddleware
 from domain.assistants.conversation_storage import InMemoryStorage
 
 logfire.configure()
+
+Agent.instrument_all()
 
 
 @asynccontextmanager

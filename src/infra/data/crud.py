@@ -303,7 +303,7 @@ class DataBackend:
                 raise
 
     @logfire.instrument
-    async def get_lessons(self):
+    async def get_lessons(self) -> list[Lesson]:
         async with self._client.get_session() as session:
             try:
                 result = await session.execute(

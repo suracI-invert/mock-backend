@@ -4,6 +4,9 @@ from pydantic import BaseModel, ConfigDict
 
 
 class BaseSchemaModel(BaseModel):
+    id: int | None = None
+    createdAt: datetime | None = None
+    updatedAt: datetime | None = None
     model_config = ConfigDict(from_attributes=True)
 
 

@@ -46,7 +46,19 @@ async def list_lessons(
         else:
             author = None
         lesson = result.model_dump(exclude={"authorId"})
-        lesson["author"] = {"id": author.id, "name": author.name} if author else {}
+        lesson["author"] = (
+            {
+                "id": author.id,
+                "name": author.name,
+                "email": author.email,
+                "avatarUrl": author.avatarUrl,
+                "is_logged_in": author.is_logged_in,
+                "createdAt": author.createdAt,
+                "updatedAt": author.updatedAt,
+            }
+            if author
+            else {}
+        )
         lessons.append(lesson)
     return [LessonReturned.model_validate(lesson) for lesson in lessons]
 

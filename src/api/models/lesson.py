@@ -1,3 +1,4 @@
+from datetime import datetime
 from typing import Any, Literal
 from pydantic import BaseModel, Field
 
@@ -64,6 +65,11 @@ class UploadLesson(BaseModel):
 class Author(BaseModel):
     id: int
     name: str
+    email: str
+    avatarUrl: str
+    is_logged_in: bool
+    createdAt: datetime
+    updatedAt: datetime
 
 
 class LessonReturned(BaseModel):
@@ -73,6 +79,7 @@ class LessonReturned(BaseModel):
     type: LessonType
     level: Level
     author: Author | dict = {}
+    createdAt: datetime
     content: dict[str, Any]
 
 

@@ -1,6 +1,10 @@
 from datetime import datetime
 import httpx
 
+import openai
+
+openai.audio
+
 text = """Locust is an open source performance/load testing tool for HTTP and other protocols. Its developer-friendly approach lets you define your tests in regular Python code.
 
 Locust tests can be run from command line or using its web-based UI. Throughput, response times and errors can be viewed in real time and/or exported for later analysis.

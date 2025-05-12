@@ -1,4 +1,7 @@
+from collections.abc import AsyncGenerator
+from typing import Any, Literal, overload
 from pydantic import BaseModel
+from pydantic_ai.models import Model
 
 from domain.agents.chat import (
     get_conversation_history,
@@ -8,6 +11,10 @@ from domain.agents.chat import (
 )
 
 from domain.agents.speaking import speaking_p1, speaking_p2, speaking_p3
+from domain.assistants.agent import Assistant
+from domain.assistants.models import Context
+from domain.assistants.conversation_storage import ConversationStorage
+from domain.assistants.runners import bind_user_name
 from .utils import convert_level
 
 
@@ -17,7 +24,7 @@ class ChatResponse(BaseModel):
     history: dict[str, list[dict[str, str]]]
 
 
-async def chat(
+async def speak(
     user_prompt: str,
     level: int,
     session_id: str,
@@ -66,3 +73,43 @@ async def chat(
             # if response.end:
             #     delete_conversation_history(session_id)
             return cr
+
+
+@overload
+async def chat(
+    message: str,
+    context: Context,
+    model: Model,
+    conversation_storage: ConversationStorage,
+    stream: Literal[False],
+) -> str: ...
+
+
+@overload
+async def chat(
+    message: str,
+    context: Context,
+    model: Model,
+    conversation_storage: ConversationStorage,
+    stream: Literal[True],
+) -> AsyncGenerator[str, Any]: ...
+
+
+async def chat(
+    message: str,
+    context: Context,
+    model: Model,
+    conversation_storage: ConversationStorage,
+    stream: Literal[True, False] = False,
+) -> AsyncGenerator[str, Any] | str:
+
+    assistant = Assistant(
+        storage=conversation_storage,
+        context=context,
+        model=model,
+        system_prompt_runners=(bind_user_name,),
+    )
+    if stream:
+        return assistant.chat_stream(message)
+    else:
+        return await assistant.chat(message)

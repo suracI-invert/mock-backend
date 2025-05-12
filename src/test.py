@@ -1,8 +1,9 @@
 import asyncio
 
 from infra.gemini import get_gemini
+from domain.assistants.promts import SYSTEM_PROMPT
 
-from pydantic_ai.agent import Agent
+from pydantic_ai import Agent, RunContext
 from pydantic_ai.messages import (
     ModelMessage,
     ModelRequest,
@@ -10,7 +11,18 @@ from pydantic_ai.messages import (
     UserPromptPart,
 )
 
-agent = Agent(get_gemini())
+
+agent = Agent(
+    get_gemini(),
+    system_prompt="You are a helpful AI Assistant",
+    deps_type=str,
+)
+
+
+@agent.system_prompt(dynamic=True)
+async def deps(ctx: RunContext[str]) -> str:
+    return f"The user's name is {ctx.deps}"
+
 
 message_history = []
 
@@ -47,12 +59,13 @@ async def chat():
             is_running = False
         else:
             async with agent.run_stream(
-                user_input, message_history=message_history
+                user_input, message_history=message_history, deps="John"
             ) as stream:
                 async for resp in stream.stream_text(delta=True, debounce_by=None):
                     print(resp, end="")
+                # print(stream.new_messages())
                 message_history = stream.all_messages()
-    print(parse_history_format(message_history))
+    print(parse_history(message_history))
 
 
 asyncio.run(chat())

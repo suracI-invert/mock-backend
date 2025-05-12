@@ -50,3 +50,6 @@ async def generate_speaking_p2_lesson(topic: str, level: str):
     return (
         await agent.run(USER_PROMPT_SPEAKING_2.format(topic=topic, level=level))
     ).output
+
+
+# async def generate_speaking_p1_lesson()

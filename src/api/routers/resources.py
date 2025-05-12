@@ -1,5 +1,5 @@
 import uuid
-from fastapi import APIRouter, HTTPException, Request
+from fastapi import APIRouter, HTTPException, Request, WebSocket
 from fastapi.responses import FileResponse
 import httpx
 import os
@@ -11,9 +11,9 @@ router = APIRouter(prefix="/resources/v1", tags=["resources"])
 
 @router.get("/audio/{id}")
 async def get_audio(id: str):
-    if not os.path.exists(f"./cache/audio/{id}.wav"):
+    if not os.path.exists(f"./.cache/audio/{id}.wav"):
         raise HTTPException(404, "Audio not found")
-    return FileResponse(f"./cache/audio/{id}.wav")
+    return FileResponse(f"./.cache/audio/{id}.wav")
 
 
 @router.post("/audio/convert")
@@ -23,8 +23,8 @@ async def convert_audio(req: ConvertAudio):
         response = await client.post(
             "http://10.0.7.49:16002/tts", json={"content": req.transcript}
         )
-        os.makedirs("./cache/audio", exist_ok=True)
-        with open(f"./cache/audio/{uid}.wav", "wb") as f:
+        os.makedirs("./.cache/audio", exist_ok=True)
+        with open(f"./.cache/audio/{uid}.wav", "wb") as f:
             f.write(response.content)
     return {"uid": uid}
 

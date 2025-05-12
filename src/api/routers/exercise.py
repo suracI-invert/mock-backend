@@ -5,7 +5,7 @@ from fastapi import APIRouter, Depends
 
 from ..dependencies.resources import get_data_backend
 from ..models.exercise import GradeExercise, SpeakingRequest, SpeakingResponse
-from app.chat import chat
+from app.chat import speak
 from app.grade_lesson import grade_lesson, Exercise
 from infra.data.crud import DataBackend
 from domain.agents.chat import SpeakingPart
@@ -41,7 +41,7 @@ async def grade_exercise(
 
 @router.post("/speaking")
 async def speaking(req: SpeakingRequest) -> SpeakingResponse:
-    r = await chat(
+    r = await speak(
         user_prompt=req.content,
         level=req.level,
         session_id=req.session_id,

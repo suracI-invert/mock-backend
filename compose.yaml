@@ -1,0 +1,72 @@
+name: infra-db-test
+
+volumes:
+  pgdata:
+  minio:
+services:
+  # A RabbitMQ queue used to send message between the requester and the server microservices.
+  # rabbitmq:
+  #   image: rabbitmq:management
+  #   restart: always
+  #   ports:
+  #     - "5672:5672"
+  #     - "15672:15672"
+  #   healthcheck:
+  #     test: rabbitmq-diagnostics check_running
+  #     interval: 5s
+  #     timeout: 30s
+  #     retries: 10
+  #   env_file:
+  #     - path: ./.env
+  #       required: true # default
+
+  # A postgres DB used to store data by the API server microservice.
+  postgres:
+    image: postgres:latest
+    environment:
+      - PGDATA=/var/lib/postgresql/data/pgdata
+      - POSTGRES_USER=${POSTGRES__USERNAME}
+      - POSTGRES_PASSWORD=${POSTGRES__PASSWORD}
+      - POSTGRES_DB=${POSTGRES__DB}
+    ports:
+      - "16000:5432"
+    volumes:
+        - pgdata:/var/lib/postgresql/data
+    env_file:
+      - path: ./.env
+        required: true # default
+  
+  minio:
+    image: quay.io/minio/minio
+    ports:
+      - 16001:9000
+      - 17002:9001
+    environment:
+      - MINIO_ROOT_USER=${MINIO__ACCESS_KEY}
+      - MINIO_ROOT_PASSWORD=${MINIO__SECRET_KEY}
+    volumes:
+      - minio:/data
+    command: server /data --console-address ":9001"
+    env_file:
+      - path: ./.env
+        required: true # default
+
+  # vault:
+  #   image: hashicorp/vault
+  #   ports:
+  #     - "18200:8200"
+  #   volumes:
+  #     - ./vault/config/:/vault/config/:ro
+  #     - vault_file:/vault/file
+  #   cap_add:
+  #     - IPC_LOCK
+  #   command: server
+
+  resources:
+    build:
+      context: ./workers
+      dockerfile: ./workers/Dockerfile
+    ports:
+      - 16002:8000
+    
+    command: ["uv", "run", "fastapi", "run", "main.py"]
